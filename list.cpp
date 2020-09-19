@@ -12,19 +12,40 @@ typedef struct student
 }ST;
 
 
-
 ST* create();
 ST* ListInsert(ST* head, ST* inster, int index);
 ST* ListDelete(ST* head, int index);
+ST* ListAdd(ST*head, ST* Add);
 int ListLen(ST*head);
 void show(ST* head);
+void find(ST* head);
 
+ST* Union(ST* a, ST* b);
+
+void list(ST* p)
+{
+	while (1)
+	{
+		if (p->next != NULL)
+		{
+			printf("%s\n", p->name);
+			p = p->next;
+		}
+		else
+		{
+			printf("%s\n", p->name);
+			break;
+		}
+	}
+}
 
 void main()
 {
 
-	ST inster = {123,"ºÃºÃ","ÄÐ",123};
-	show(ListDelete(create(),1));
+	ST*st2 = create();
+	show(Union(st2,create()));
+
+	
 }
 
 
@@ -33,33 +54,36 @@ void show(ST* head)
 	ST* p = head;
 	while (p->next != NULL)
 	{
-		printf("Ñ§ºÅ%d Ãû×Ö%s ÐÔ±ð%s °à¼¶%d \n", p->num, p->name, p->sex, p->Class);
+		printf("å­¦å·%d åå­—%s æ€§åˆ«%s ç­çº§%d \n", p->num, p->name, p->sex, p->Class);
 		p = p->next;
 	}
+	printf("å­¦å·%d åå­—%s æ€§åˆ«%s ç­çº§%d", p->num, p->name, p->sex, p->Class);
 }
 
 ST* create()
 {
 	ST* head, * newPoint, * p;
 	head = (ST*)malloc(sizeof(ST));
-	printf("ÇëÊäÈë·Ö±ðÊäÈë Ñ§ºÅ Ãû×Ö ÐÔ±ð °à¼¶:");
+	printf("è¯·è¾“å…¥åˆ†åˆ«è¾“å…¥ å­¦å· åå­— æ€§åˆ« ç­çº§:");
 	scanf_s("%d%s%s%d", &head->num, head->name, 10, head->sex, 4, &head->Class);
 	getchar();
 	/*printf("%d %s %s %d ", head->num, head->name, head->sex, head->Class);*/
 	p = (ST*)malloc(sizeof(ST));
-	head->next = p;
+	p=head;
 	char j;
-	printf("ÊÇ·ñÒª¼ÌÐøÊäÈëy/n:");
+	printf("æ˜¯å¦è¦ç»§ç»­è¾“å…¥y/n:");
 	scanf_s("%c", &j, 1);
+	//printf("%c",j);
 	while (j == 'y')
 	{
 		newPoint = (ST*)malloc(sizeof(ST));
-		printf("ÇëÊäÈë·Ö±ðÊäÈë Ñ§ºÅ Ãû×Ö ÐÔ±ð °à¼¶:");
-		scanf_s("%d%s%s%d", &p->num, p->name, 10, p->sex, 4, &p->Class);
-		getchar();
 		p->next = newPoint;
 		p = newPoint;
-		printf("ÊÇ·ñÒª¼ÌÐøÊäÈëy/n:");
+		printf("è¯·è¾“å…¥åˆ†åˆ«è¾“å…¥ å­¦å· åå­— æ€§åˆ« ç­çº§:");
+		scanf_s("%d%s%s%d", &p->num, p->name, 10, p->sex, 4, &p->Class);
+		getchar();
+		
+		printf("æ˜¯å¦è¦ç»§ç»­è¾“å…¥y/n:");
 		scanf_s("%c", &j, 1);
 	}
 	p->next = NULL;
@@ -70,19 +94,19 @@ void find(ST* head)
 {
 	ST* p = head;
 	int num;
-	printf("ÇëÊäÈëÄãÒª²éÕÒµÄÑ§ºÅ:");
+	printf("è¯·è¾“å…¥ä½ è¦æŸ¥æ‰¾çš„å­¦å·:");
 	scanf_s("%d", &num);
-	while (p->next != NULL)
+	while (p != NULL)
 	{
 		if (p->num == num)
 		{
-			printf("Ñ§ºÅ%d Ãû×Ö%s ÐÔ±ð%s °à¼¶%d \n", p->num, p->name, p->sex, p->Class);
+			printf("å­¦å·%d åå­—%s æ€§åˆ«%s ç­çº§%d \n", p->num, p->name, p->sex, p->Class);
 			break;
 		}
 		p = p->next;
 	}
-	if (p->next == NULL)
-		printf("Î´ÕÒµ½Ñ§ºÅÎª%dµÄÑ§Éú", num);
+	if (p== NULL)
+		printf("æœªæ‰¾åˆ°å­¦å·ä¸º%dçš„å­¦ç”Ÿ", num);
 
 }
 
@@ -95,30 +119,37 @@ int ListLen(ST* head)
 		p = p->next;
 		len++;
 	}
+	len++;
 	return len;
 }
 
 ST* ListInsert(ST* head,ST *inster,int index)
 {
-	if (ListLen(head) < index)
+	ST* p1=head, * p2=inster;
+	if (ListLen(p1) < index)
 	{
-		printf("%d³¬¹ýÁËÁ´±í",index);
+		printf("%dè¶…è¿‡äº†é“¾è¡¨",index);
 		return 0;
 	}
 	if (index == 1)
 	{
-		inster->next = head;
-		head = inster;
+		while (p2->next != NULL)
+			p2 = p2->next;
+		p2->next = p1;
+		head = p2;
 	}
 	else
 	{
 		int i=1;
-		ST* p=head;
+		ST* p= p1;
 		while (p->next != NULL)
 		{
 			if (i == index - 1)
 			{
-				inster->next = p->next;
+				
+				while (p2->next != NULL)
+					p2 = p2->next;
+				p2->next = p->next;
 				p->next = inster;
 				break;
 			}
@@ -133,7 +164,7 @@ ST* ListDelete(ST* head, int index)
 {
 	if (ListLen(head) < index)
 	{
-		printf("%d³¬¹ýÁËÁ´±í", index);
+		printf("%dè¶…è¿‡äº†é“¾è¡¨", index);
 		return 0;
 	}
 	if (index == 1)
@@ -154,4 +185,36 @@ ST* ListDelete(ST* head, int index)
 		}
 	}
 	return head;
+}
+ST* ListAdd(ST* head,ST*Add)
+{
+	ST* p = head,*p1=Add;
+	while (p->next != NULL)
+		p = p->next;
+	p->next = p1;
+	while (p1->next != NULL)
+		p1 = p1->next;
+	p1->next = NULL;
+	return head;
+}
+
+ST* Union(ST* a,ST *b)
+{
+	ST* p1, * p2=b;
+	while (p2!=NULL)
+	{
+		int k = 1;
+		p1 = a;
+		while (p1!=NULL)
+		{
+			if (p2->num == p1->num)
+				k = 0;
+			p1 = p1->next; 
+		}
+		if (k)
+			ListAdd(a, p2);
+		p2 = p2->next;
+		
+	}
+	return a;
 }
