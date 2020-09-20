@@ -1,6 +1,20 @@
 #include<stdio.h>
 #include<malloc.h>
-//ç”±æ•°ç»„ç»„æˆçš„é¡ºåºå­˜å‚¨çš„è¡¨
+//ÓÉÊı×é×é³ÉµÄË³Ğò´æ´¢µÄ±í
+
+/*³é³éÏóÊı¾İÀàĞÍ
+  Êı¾İÃû×Ö ÏßĞÔ±í
+  ²Ù×÷¼¯ £º
+	L* create();
+	void show(L*list);
+	void ElementInster(L* list, Type inster, int index);
+	void ElementDelete(L* list, int index);
+	int Find(L* list, int Find_num);
+*/
+
+/*
+*   index ´Ó 1 ¿ªÊ¼ 
+*/
 
 #define Type int
 #define MAXSIZE 20
@@ -13,11 +27,12 @@ L* create();
 void show(L*list);
 void ElementInster(L* list, Type inster, int index);
 void ElementDelete(L* list, int index);
+int Find(L* list, int Find_num);
 int main()
 {
 	L* list = create();
-	ElementDelete(list,2);
-	show(list);
+	printf("%d",Find(list,2));
+	//show(list);
 	return 0;
 }
 
@@ -31,11 +46,11 @@ L* create()
 	char ch;
 	do
 	{
-		printf("è¯·è¾“å…¥ä¸€ä¸ªdata:");
+		printf("ÇëÊäÈëÒ»¸ödata:");
 		scanf_s("%d", &list->data[list->length]);
 		getchar();
 		list->length++;
-		printf("æ˜¯å¦ç»§ç»­è¾“å…¥y/n:");
+		printf("ÊÇ·ñ¼ÌĞøÊäÈëy/n:");
 		scanf_s("%c",&ch,1);
 	} while (list->length<=MAXSIZE&&ch=='y');
 	return list;
@@ -56,14 +71,13 @@ void ElementInster(L*list,Type inster,int index)
 		list->data[list->length++] = inster;
 	else if(list->length+1<=MAXSIZE)
 	{
-		Type k;
 		int i = list->length-1;
 		for (; i >= index - 1; i--)
 		{
 			list->data[i+1] = list->data[i];
 		}
 		list->data[i+1] = inster;
-		list->length++;//æ³¨æ„è¦é•¿åº¦è¦åŠ ä¸€
+		list->length++;//×¢ÒâÒª³¤¶ÈÒª¼ÓÒ»
 	}
 }
 
@@ -72,10 +86,21 @@ void ElementDelete(L* list, int index)
 	if (index < 1 || index >= list->length)
 		return;
 	int i = index - 1;
-	i++;		//ç§»åˆ°è¦åˆ é™¤çš„åä¸€ä¸ªé‚£é‡Œ
+	i++;	//ÒÆµ½ÒªÉ¾³ıµÄºóÒ»¸öÄÇ
 	for (;i<list->length;i++)
 	{
 		list->data[i - 1] = list->data[i];
 	}
-	list->length--;//æ³¨æ„è¦é•¿åº¦è¦å‡ä¸€
+	list->length--;//×¢ÒâÒª³¤¶ÈÒª¼õÒ»
+}
+
+int Find(L* list, int Find_num)
+{
+	int i;
+	for (i=0;i<list->length;i++)
+	{
+		if (list->data[i] == Find_num)
+			return i + 1;
+	}
+	return 0;
 }
