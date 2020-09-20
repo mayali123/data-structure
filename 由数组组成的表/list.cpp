@@ -31,8 +31,8 @@ int Find(L* list, int Find_num);
 int main()
 {
 	L* list = create();
-	printf("%d",Find(list,2));
-	//show(list);
+	ElementInster(list, 233,15);
+	show(list);
 	return 0;
 }
 
@@ -52,6 +52,7 @@ L* create()
 		list->length++;
 		printf("是否继续输入y/n:");
 		scanf_s("%c",&ch,1);
+		
 	} while (list->length<=MAXSIZE&&ch=='y');
 	return list;
 }
@@ -65,10 +66,10 @@ void show(L*list)
 
 void ElementInster(L*list,Type inster,int index)
 {
-	if (index < 1)
+	if (index < 1||list->length==MAXSIZE||index>MAXSIZE)
 		return;
-	if (index > list->length)
-		list->data[list->length++] = inster;
+	/*if (index > list->length&&list->length<MAXSIZE)
+		list->data[list->length++] = inster;*/
 	else if(list->length+1<=MAXSIZE)
 	{
 		int i = list->length-1;
@@ -83,7 +84,7 @@ void ElementInster(L*list,Type inster,int index)
 
 void ElementDelete(L* list, int index)
 {
-	if (index < 1 || index >= list->length)
+	if (index < 1 || index > list->length)
 		return;
 	int i = index - 1;
 	i++;	//移到要删除的后一个那
@@ -104,3 +105,5 @@ int Find(L* list, int Find_num)
 	}
 	return 0;
 }
+
+
