@@ -1,220 +1,81 @@
 #include<stdio.h>
 #include<malloc.h>
-//#define _CRT_SECURE_NO_WARNINGS
-#define N  6
-typedef struct student
+//��������ɵ�˳��洢�İɱ�
+
+#define Type int
+#define MAXSIZE 20
+typedef struct Mylist {
+	Type data[MAXSIZE];
+	int length;
+}L;
+
+L* create();
+void show(L*list);
+void ElementInster(L* list, Type inster, int index);
+void ElementDelete(L* list, int index);
+int main()
 {
-	int num;
-	char name[10];
-	char sex[4];
-	int Class;
-	struct student* next;
-}ST;
-
-
-ST* create();
-ST* ListInsert(ST* head, ST* inster, int index);
-ST* ListDelete(ST* head, int index);
-ST* ListAdd(ST*head, ST* Add);
-int ListLen(ST*head);
-void show(ST* head);
-void find(ST* head);
-
-ST* Union(ST* a, ST* b);
-
-void list(ST* p)
-{
-	while (1)
-	{
-		if (p->next != NULL)
-		{
-			printf("%s\n", p->name);
-			p = p->next;
-		}
-		else
-		{
-			printf("%s\n", p->name);
-			break;
-		}
-	}
+	L* list = create();
+	ElementDelete(list,2);
+	show(list);
+	return 0;
 }
 
-void main()
+L* create()
 {
-
-	ST*st2 = create();
-	show(Union(st2,create()));
-
-	
-}
-
-
-void show(ST* head)
-{
-	ST* p = head;
-	while (p->next != NULL)
+	L *list;
+	list = (L*)malloc(sizeof(L));
+	if (list == NULL)
+		return 0;
+	list->length = 0;
+	char ch;
+	do
 	{
-		printf("学号%d 名字%s 性别%s 班级%d \n", p->num, p->name, p->sex, p->Class);
-		p = p->next;
-	}
-	printf("学号%d 名字%s 性别%s 班级%d", p->num, p->name, p->sex, p->Class);
-}
-
-ST* create()
-{
-	ST* head, * newPoint, * p;
-	head = (ST*)malloc(sizeof(ST));
-	printf("请输入分别输入 学号 名字 性别 班级:");
-	scanf_s("%d%s%s%d", &head->num, head->name, 10, head->sex, 4, &head->Class);
-	getchar();
-	/*printf("%d %s %s %d ", head->num, head->name, head->sex, head->Class);*/
-	p = (ST*)malloc(sizeof(ST));
-	p=head;
-	char j;
-	printf("是否要继续输入y/n:");
-	scanf_s("%c", &j, 1);
-	//printf("%c",j);
-	while (j == 'y')
-	{
-		newPoint = (ST*)malloc(sizeof(ST));
-		p->next = newPoint;
-		p = newPoint;
-		printf("请输入分别输入 学号 名字 性别 班级:");
-		scanf_s("%d%s%s%d", &p->num, p->name, 10, p->sex, 4, &p->Class);
+		printf("������һ��data:");
+		scanf_s("%d", &list->data[list->length]);
 		getchar();
-		
-		printf("是否要继续输入y/n:");
-		scanf_s("%c", &j, 1);
-	}
-	p->next = NULL;
-	return head;
+		list->length++;
+		printf("�Ƿ��������y/n:");
+		scanf_s("%c",&ch,1);
+	} while (list->length<=MAXSIZE&&ch=='y');
+	return list;
 }
 
-void find(ST* head)
+void show(L*list)
 {
-	ST* p = head;
-	int num;
-	printf("请输入你要查找的学号:");
-	scanf_s("%d", &num);
-	while (p != NULL)
+	int i;
+	for (i = 0; i < list->length; i++)
+		printf("%d\n", list->data[i]);
+}
+
+void ElementInster(L*list,Type inster,int index)
+{
+	if (index < 1)
+		return;
+	if (index > list->length)
+		list->data[list->length++] = inster;
+	else if(list->length+1<=MAXSIZE)
 	{
-		if (p->num == num)
+		Type k;
+		int i = list->length-1;
+		for (; i >= index - 1; i--)
 		{
-			printf("学号%d 名字%s 性别%s 班级%d \n", p->num, p->name, p->sex, p->Class);
-			break;
+			list->data[i+1] = list->data[i];
 		}
-		p = p->next;
+		list->data[i+1] = inster;
+		list->length++;//ע��Ҫ����Ҫ��һ
 	}
-	if (p== NULL)
-		printf("未找到学号为%d的学生", num);
-
 }
 
-int ListLen(ST* head)
+void ElementDelete(L* list, int index)
 {
-	int len=0;
-	ST* p=head;
-	while (p->next!=NULL)
+	if (index < 1 || index >= list->length)
+		return;
+	int i = index - 1;
+	i++;	//�Ƶ�Ҫɾ���ĺ�һ����
+	for (;i<list->length;i++)
 	{
-		p = p->next;
-		len++;
+		list->data[i - 1] = list->data[i];
 	}
-	len++;
-	return len;
-}
-
-ST* ListInsert(ST* head,ST *inster,int index)
-{
-	ST* p1=head, * p2=inster;
-	if (ListLen(p1) < index)
-	{
-		printf("%d超过了链表",index);
-		return 0;
-	}
-	if (index == 1)
-	{
-		while (p2->next != NULL)
-			p2 = p2->next;
-		p2->next = p1;
-		head = p2;
-	}
-	else
-	{
-		int i=1;
-		ST* p= p1;
-		while (p->next != NULL)
-		{
-			if (i == index - 1)
-			{
-				
-				while (p2->next != NULL)
-					p2 = p2->next;
-				p2->next = p->next;
-				p->next = inster;
-				break;
-			}
-			p = p->next;
-			i++;
-		}
-	}
-	return head;
-}
-
-ST* ListDelete(ST* head, int index)
-{
-	if (ListLen(head) < index)
-	{
-		printf("%d超过了链表", index);
-		return 0;
-	}
-	if (index == 1)
-		head = head->next;
-	else
-	{
-		int i=1;
-		ST* p=head;
-		while (p->next != NULL)
-		{
-			if (i == index - 1)
-			{
-				p->next = p->next->next;
-				break;
-			}
-			p = p->next;
-			i++;
-		}
-	}
-	return head;
-}
-ST* ListAdd(ST* head,ST*Add)
-{
-	ST* p = head,*p1=Add;
-	while (p->next != NULL)
-		p = p->next;
-	p->next = p1;
-	while (p1->next != NULL)
-		p1 = p1->next;
-	p1->next = NULL;
-	return head;
-}
-
-ST* Union(ST* a,ST *b)
-{
-	ST* p1, * p2=b;
-	while (p2!=NULL)
-	{
-		int k = 1;
-		p1 = a;
-		while (p1!=NULL)
-		{
-			if (p2->num == p1->num)
-				k = 0;
-			p1 = p1->next; 
-		}
-		if (k)
-			ListAdd(a, p2);
-		p2 = p2->next;
-		
-	}
-	return a;
+	list->length--;//ע��Ҫ����Ҫ��һ
 }
