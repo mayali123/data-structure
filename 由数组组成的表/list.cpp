@@ -72,7 +72,7 @@ void ElementDelete(L* list, int index)
 	if (index < 1 || index >= list->length)
 		return;
 	int i = index - 1;
-	i++;	//移到要删除的后一个那
+	i++;		//移到要删除的后一个那里
 	for (;i<list->length;i++)
 	{
 		list->data[i - 1] = list->data[i];
