@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<malloc.h>
-//由数组组成的顺序存储的吧表
+//鐢辨暟缁勭粍鎴愮殑椤哄簭瀛樺偍鐨勮〃
 
 #define Type int
 #define MAXSIZE 20
@@ -31,11 +31,11 @@ L* create()
 	char ch;
 	do
 	{
-		printf("请输入一个data:");
+		printf("璇疯緭鍏ヤ竴涓猟ata:");
 		scanf_s("%d", &list->data[list->length]);
 		getchar();
 		list->length++;
-		printf("是否继续输入y/n:");
+		printf("鏄惁缁х画杈撳叆y/n:");
 		scanf_s("%c",&ch,1);
 	} while (list->length<=MAXSIZE&&ch=='y');
 	return list;
@@ -63,7 +63,7 @@ void ElementInster(L*list,Type inster,int index)
 			list->data[i+1] = list->data[i];
 		}
 		list->data[i+1] = inster;
-		list->length++;//注意要长度要加一
+		list->length++;//娉ㄦ剰瑕侀暱搴﹁鍔犱竴
 	}
 }
 
@@ -72,10 +72,10 @@ void ElementDelete(L* list, int index)
 	if (index < 1 || index >= list->length)
 		return;
 	int i = index - 1;
-	i++;	//移到要删除的后一个那
+	i++;	//绉诲埌瑕佸垹闄ょ殑鍚庝竴涓偅
 	for (;i<list->length;i++)
 	{
 		list->data[i - 1] = list->data[i];
 	}
-	list->length--;//注意要长度要减一
+	list->length--;//娉ㄦ剰瑕侀暱搴﹁鍑忎竴
 }
