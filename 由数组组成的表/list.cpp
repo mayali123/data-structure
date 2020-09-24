@@ -27,12 +27,19 @@ L* create();
 void show(L*list);
 void ElementInster(L* list, Type inster, int index);
 void ElementDelete(L* list, int index);
-int Find(L* list, int Find_num);
+void Find(L* list, int Find_num,int* num);
 int main()
 {
 	L* list = create();
-	ElementInster(list, 233,15);
-	show(list);
+	int num[20] = {0}, i = 0;
+	Find(list,1,num);
+	while (num[i]!=0)
+	{
+		printf("%d ",num[i]);
+		i++;
+	}
+	if (num[0] == 0)
+		printf("未找到");
 	return 0;
 }
 
@@ -95,15 +102,14 @@ void ElementDelete(L* list, int index)
 	list->length--;//注意要长度要减一
 }
 
-int Find(L* list, int Find_num)
+void Find(L* list, int Find_num,int *num)
 {
-	int i;
+	int i,j=0;
 	for (i=0;i<list->length;i++)
 	{
 		if (list->data[i] == Find_num)
-			return i + 1;
+			num[j++] = i + 1;
 	}
-	return 0;
 }
 
 
