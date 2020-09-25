@@ -2,6 +2,7 @@
 #include<malloc.h>
 #define MAXSIZE 200
 #define ElemType char 
+#define N 3
 typedef struct list{
 	ElemType data[MAXSIZE];
 	int length;
@@ -16,20 +17,29 @@ void DispList(L* list);
 int GetElem(L* list,int index,ElemType *e);
 int LocateElem(L* list,ElemType *e);
 int  ListInsert(L*list,int index,ElemType e);
+void LocateElemPlus(L* list,ElemType e,int *index);
+
 int DeletEele(L*list,int index,ElemType *e);
 
 int main()
 {
 	L * list;
+	int index[MAXSIZE]={0};
 	ElemType e='b';
 	list=(L*)malloc(sizeof(L));
 	list->length=0;
-	char ch[2]={'h','b'};
-	CreateList(list,ch,2);
+	char ch[N]={'h','b','b'};
+	CreateList(list,ch,N);
 	ListInsert(list,1,'a');
 	DispList(list);
 	printf("len=%d\n",Listlength(list));
 	DispList(list);
+	LocateElemPlus(list,'h',index);
+	for(int i=0;index[i]!=0;i++)
+	{
+		printf("%d ",index[i]);
+	}
+	
 }
 
 void InitList(L *list)
@@ -133,3 +143,13 @@ int DeletEele(L*list,int index,ElemType *e)
 	return 1;
 }
 
+
+void LocateElemPlus(L* list,ElemType e,int *index)
+{
+	int i=0,j=0;
+	for(;i<list->length;i++)
+	{
+		if(list->data[i]==e)
+			index[j++]=i+1;
+	}
+}
