@@ -104,7 +104,7 @@ void DeletElem(TL* list, int index, ELemType* e)
 	{
 		if (i == index)
 		{
-			/*p->prior->next = p->next;
+			/*p->prior->next = p->next;  //这个也可以 
 			p->next= p->prior;*/
 			p->next->prior = p->prior;
 			p->prior->next = p->next;
@@ -115,6 +115,18 @@ void DeletElem(TL* list, int index, ELemType* e)
 		p =p->next;
 	}
 	list->data--;
+}
+
+void DestroyList(TL* list)
+{
+	int len = list->data;
+	TL* p = list->next;
+	while (p!=NULL)
+	{
+		free(p->prior);
+		p = p->next;
+	}
+	free(p);
 }
 int main()
 {
@@ -131,6 +143,8 @@ int main()
 	printf("\ndd");
 	show(list);
 	printf("\n删除的是%c", e);
+	DestroyList(list);
+	printf("释放双向链表");
 }
 
 
