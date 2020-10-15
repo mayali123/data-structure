@@ -11,7 +11,7 @@ typedef struct LinkList {
 	ElemType data;
 	struct LinkList* next;
 }LL;
-LL* CreateListR(ElemType *e ,int len)  // Î²²å ´øÍ·½áµã
+LL* CreateListR(ElemType *e ,int len)  // å°¾æ’ å¸¦å¤´ç»“ç‚¹
 {
 	LL *linklist=(LL*)malloc(sizeof(LL)),*r,*s;
 	r = linklist;
@@ -25,7 +25,7 @@ LL* CreateListR(ElemType *e ,int len)  // Î²²å ´øÍ·½áµã
 	r->next = NULL;
 	return linklist;
 }
-LL* CreateListF(ElemType* e, int len) // Í·²å  ´øÍ·½áµã  È»ºóÓëÔ­Ë³ĞòÏà·´
+LL* CreateListF(ElemType* e, int len) // å¤´æ’  å¸¦å¤´ç»“ç‚¹  ç„¶åä¸åŸé¡ºåºç›¸å
 {
 	LL* linklist = (LL*)malloc(sizeof(LL)), * s;
 	linklist->next = NULL;
@@ -127,22 +127,37 @@ void ListDestroy(LL* linklist)
 	}
 	free(f);
 }
+void quick_middle_search(LL* linklist)
+{
+	LL* f = linklist->next, * s = f;
+	for (;f->next;)
+	{
+		if (f->next->next)
+		{
+			f = f->next->next;
+			s = s->next;
+		}
+		else
+			f = f->next;
+	}
+	printf("ä¸­é—´çš„ %d\n",s->data);
+}
 int main()
 {
 	int E[] = { 1,2,3,4,5,6 },e;
 	LL* linklistR = CreateListR(E, 6);
 	//LL* linklistF = CreateListF(E,6);
 	show(linklistR);
-	printf("list µÄ³¤¶ÈÊÇ %d\n",ListLength(linklistR));
+	printf("list çš„é•¿åº¦æ˜¯ %d\n",ListLength(linklistR));
 	GetElem(linklistR,2,&e);
-	printf("index=%dµÄÔªËØÊÇ%d\n",2,e);
-	printf("%dÔÚlistµÄµÚ%d¸ö",4, LocateElem(linklistR,4));
-	printf("ÔÚindex=1²åÈëÒ»¸öÖµ\n");
+	printf("index=%dçš„å…ƒç´ æ˜¯%d\n",2,e);
+	printf("%dåœ¨listçš„ç¬¬%dä¸ª",4, LocateElem(linklistR,4));
+	printf("åœ¨index=1æ’å…¥ä¸€ä¸ªå€¼\n");
 	ElemInsert(linklistR,2,9);
 	show(linklistR);
 	ElemDel(linklistR,7, &e);
-	printf("ÔÚindex=1É¾³ıÒ»¸öÖµ%d\n",e);
+	printf("åœ¨index=1åˆ é™¤ä¸€ä¸ªå€¼%d\n",e);
 	show(linklistR);
-	printf("ÊÍ·Ålist\n");
+	printf("é‡Šæ”¾list\n");
 	ListDestroy(linklistR);
 }
