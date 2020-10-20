@@ -1,83 +1,125 @@
-// ”√À≥–Ú¥Ê¥¢ µœ÷µƒ∂”¡–
 #include<stdio.h>
 #include<malloc.h>
+#define ERROR 0
+#define OK 1
+#define TRUE 1
+#define FALSE 0
 #define MAXSIZE 5
-#define ElemType int
-typedef struct queue{
+#define Status int
+#define ElemType int  
+typedef struct queue {
 	ElemType data[MAXSIZE];
 	int front;
 	int rear;
 }QU;
 
-QU* CreateQueue()
+//QU* InitQueue()
+//{
+//	QU* queue=(QU*)malloc(sizeof(QU));
+//	queue->front = queue->rear = -1;
+//	return queue;
+//
+//}
+//void Destory(QU*queue)
+//{
+//	free(queue);
+//}
+//int QueueEmpty(QU* queue)
+//{
+//	return(queue->rear == queue->front);
+//}
+//Status enQueue(QU* queue,ElemType e)
+//{
+//	if (queue->rear == MAXSIZE - 1)
+//		return FALSE;
+//	queue->data[++queue->rear] = e;
+//	return OK;
+//}
+//Status deQueue(QU* queue, ElemType* e)
+//{
+//	if (queue->front == queue->rear)
+//		return FALSE;
+//	*e = queue->data[++queue->front];
+//	return OK;
+//}
+//void show(QU* queue)
+//{
+//	for (int i = queue->front+1; i <= queue->rear; i++)
+//		printf("%d ",queue->data[i]);
+//	printf("\n");
+//}
+//int main()
+//{
+//	QU*queue=InitQueue();
+//	for (int i = 0; i < 10; i++)
+//	{
+//		enQueue(queue,i);
+//	}
+//	show(queue);
+//	for(int i=0;i<3;i++)
+//	{ 
+//		deQueue(queue,&i);
+//		printf("Âà†Èô§%d\n",i);
+//	}
+//	show(queue);
+//}
+
+// Âæ™ÁéØÈòüÂàó
+QU* InitQueue()
 {
-	QU* queue = (QU*)malloc(sizeof(QU));
-	queue->front = -1;
-	queue->rear = -1;
+	QU* queue=(QU*)malloc(sizeof(QU));
+	queue->front = queue->rear = 0;  //ËøôÈáåÂøÖÈúÄË¶ÅËÆæ‰∏∫0 
 	return queue;
 }
-
-void addQueue(QU *queue,ElemType e)
+void Destory(QU*queue)
+{
+	free(queue);
+}
+int QueueEmpty(QU* queue)
+{
+	return(queue->rear == queue->front);
+}
+Status enQueue(QU* queue,ElemType e)
 {
 	if ((queue->rear + 1) % MAXSIZE == queue->front)
-	{
-		printf("∂”¡–“—¬˙");
-		return;
-	}
-	queue->rear = queue->rear+1 % MAXSIZE;
+		return FALSE;
+	queue->rear = (queue->rear + 1) % MAXSIZE;
 	queue->data[queue->rear] = e;
+	return OK;
 }
-
-void DeleteQueue(QU* queue)
+Status deQueue(QU* queue, ElemType* e)
 {
-	if (queue->front == queue->rear)
-	{
-		printf("∂”¡–Œ™ø’£°");
-		return;
-	}
-	queue->front = queue->front + 1 % MAXSIZE;
+	if (QueueEmpty(queue))
+		return FALSE;
+	queue->front = (queue->front + 1) % MAXSIZE;
+	*e = queue->data[queue->front];
+	return OK;
 }
-
 void show(QU* queue)
 {
-	if(queue->front+1<queue->rear)
-	{ 
-		printf("–°”⁄");
-		for (int i = queue->front+1; i <= queue->rear;i++)
-		{
-			printf("%d ", queue->data[i]);
-		}
-	}
-	else
-	{
-		for (int i = queue->front+1; i <= MAXSIZE + queue->rear; i++)
-		{
-			printf("%d ",queue->data[i% MAXSIZE]);
-		}
-	}
-
+	int addnum = 0;
+	if (queue->rear < queue->front)
+		addnum = MAXSIZE;
+	for (int i = queue->front + 1; i <= queue->rear + addnum; i++)
+		printf("%d ",queue->data[i%MAXSIZE]);
+	printf("\n");
 }
-
 int main()
 {
-	QU* queue= CreateQueue();
-	ElemType ch;
-	scanf_s("%d",&ch);
-	while (ch != -1)
+	QU*queue=InitQueue();
+	for (int i = 0; i < 4; i++)
 	{
-		addQueue(queue,ch);
-		scanf_s("%d", &ch);
+		enQueue(queue,i);
 	}
 	show(queue);
-	for (int i = 0; i < 2; i++)
-		DeleteQueue(queue);
-	printf("\n");
-	show(queue);
-	scanf_s("%d", &ch);
-	while (ch != -1)
+	for(int i=0;i<3;i++)
+	{ 
+		deQueue(queue,&i);
+		printf("Âà†Èô§%d\n",i);
+	}
+	for (int i = 0; i < 3; i++)
 	{
-		addQueue(queue, ch);
-		scanf_s("%d", &ch);
+		enQueue(queue,i);
 	}
 	show(queue);
 }
