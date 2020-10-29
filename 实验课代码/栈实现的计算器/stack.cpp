@@ -14,7 +14,7 @@ void trans(char* exp, char* postexp)
 			i++;
 			break;
 		case ')':
-			while (1)
+			while (!StackEmpty(p))
 			{
 				Pop(p, &e);
 				if (e == '(')
