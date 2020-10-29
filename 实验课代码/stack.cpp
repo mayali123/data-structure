@@ -86,15 +86,20 @@ void trans(char *exp,char *postexp)
 				}
 				break;
 			case '+':
-				while(1)
+				while(!StackEmpty(p))
+				{
+					GetTop(p,&e);
+					if(e!='(')
 					{
 						Pop(p,&e);
-						if(StackEmpty(p)||e=='(')
-							break;
 						postexp[k++] = e;
 					}
-					Push(p,exp[i]);
-					break;
+					else
+						break;
+				}
+				Push(p,exp[i]);
+				
+				break;
 			case '-':
 				
 			case '*':
@@ -115,7 +120,7 @@ void trans(char *exp,char *postexp)
 	while(!StackEmpty(p))
 	{
 		Pop(p,&e);
-		printf("%c ",e);
+		printf("e=%c ",e);
 		postexp[k++] = e;
 	}
 	postexp[k++]='\0';
@@ -168,7 +173,7 @@ int main()
 	/*int i=comp("122 2 -");
 	printf("%d",i);
 	return 0;*/
-	char ch[]="123+2",ch1[100];
+	char ch[]="123 + 2",ch1[100];
 	trans(ch,ch1);
 	printf("%s",ch1);
 }
