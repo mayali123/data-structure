@@ -28,13 +28,10 @@ void trans(char* exp, char* postexp)
 			while (!StackEmpty(p))
 			{
 				GetTop(p, &e);
-				if (e != '(')
-				{
-					Pop(p, &e);
-					postexp[k++] = e;
-				}
-				else
+				if (e == '(')
 					break;
+				Pop(p, &e);
+				postexp[k++] = e;
 			}
 			Push(p, exp[i]);
 			i++;
