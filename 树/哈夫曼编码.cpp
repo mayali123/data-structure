@@ -83,6 +83,33 @@ void Disphocde(HTnode ht[],HCode hcd[], int n)
 		printf("\n");
 	}
 }
+void decode(HTnode ht[], char*ch,int n)
+{
+	// 根节点 为 2*n-2;
+	int root = 2 * n - 2,now_index=root;
+	for (int i = 0; ch[i] != '\0'; i++)
+	{
+		if(ch[i]=='0')
+		{ 
+			if (ht[now_index].lchild == -1)
+			{
+				printf("%s ",ht[now_index].data);
+				now_index = root;
+			}
+			now_index = ht[now_index].lchild;
+		}
+		else if (ch[i] == '1')
+		{
+			if (ht[now_index].rchild == -1)
+			{
+				printf("%s ", ht[now_index].data);
+				now_index = root;
+			}
+			now_index = ht[now_index].rchild;
+		}
+	}
+	printf("%s ", ht[now_index].data);
+}
 int main()
 {
 	int n = 15;
@@ -98,4 +125,6 @@ int main()
 	CreateHT(ht,n);
 	CreateHCode(ht,hcd,n);
 	Disphocde(ht,hcd,n);
+	char  ch[] = "100011000001101000\0";
+	decode(ht,ch,n);
 }
