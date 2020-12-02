@@ -28,7 +28,7 @@ void CreateTree(T**tree)
 	else
 	{
 		(*tree) =(T*)malloc(sizeof(T));
-		// 先序 
+		// 鍏堝簭 
 		(*tree)->data = e;
 		CreateTree(&(*tree)->lchild);
 		CreateTree(&(*tree)->rchild);
@@ -39,7 +39,7 @@ void show(T*tree)
 	/*if (!tree)
 		return;*/
 
-	// 配合层次
+	// 閰嶅悎灞傛
 	/*QU *q = (QU*)malloc(sizeof(QU));
 	q->front = q->rear = -1;*/
 
@@ -48,25 +48,25 @@ void show(T*tree)
 	if (tree)
 	{
 		/*
-		// 先序遍历 
-		printf("%c 在第 %d 层\n",tree->data,level);
+		// 鍏堝簭閬嶅巻 
+		printf("%c 鍦ㄧ %d 灞俓n",tree->data,level);
 		show(tree->lchild, level + 1);
 		show(tree->rchild, level + 1);
 		*/
 		/*
-			// 中序遍历 
+			// 涓簭閬嶅巻 
 			show(tree->lchild, level + 1);
-			printf("%c 在第 %d 层\n",tree->data,level);
+			printf("%c 鍦ㄧ %d 灞俓n",tree->data,level);
 			show(tree->rchild, level + 1);
 		*/
 		/*
-			// 后序遍历
+			// 鍚庡簭閬嶅巻
 			show(tree->lchild, level + 1);
 			show(tree->rchild, level + 1);
-			printf("%c 在第 %d 层\n",tree->data,level);
+			printf("%c 鍦ㄧ %d 灞俓n",tree->data,level);
 		*/
 		
-		// 层次遍历
+		// 灞傛閬嶅巻
 		/*q->data[++q->rear] = *tree;
 
 		while (q->front != q->rear)
@@ -78,17 +78,6 @@ void show(T*tree)
 			if (tree->rchild)
 				q->data[++q->rear] = *tree->rchild;
 		}*/
-		// 非递归方法 
-		//中序遍历 
-		st->data[++st->top] = *tree;
-		while (st->top != -1)
-		{
-			if(tree->lchild)
-				st->data[++st->top] = *tree->lchild;
-			if (tree->rchild)
-				st->data[++st->top] = *tree->rchild;
-			
-		}
 	}
 }
 int main()
