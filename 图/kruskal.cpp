@@ -44,7 +44,7 @@ void kruskal()
 		if (n != m)
 		{
 			// 合并 集合 
-			parent[m] = n;
+			parent[n] = m;
 			printf("(%d,%d) %d \n", edge[i].begin, edge[i].end,edge[i].weight);
 		}
 	}
