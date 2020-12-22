@@ -29,7 +29,7 @@ BTN* CreateBTree(BTN **tree)
 		CreateBTree(&(*tree)->right);
 	}
 }
-// ÕÒµ½Ä³½Úµã
+// æ‰¾åˆ°æŸèŠ‚ç‚¹
 BTN *Find(BTN  *tree,Elmetype e)
 {
 	if(!tree)
@@ -45,7 +45,7 @@ BTN *Find(BTN  *tree,Elmetype e)
 			return Find(tree->right,e);
 	}
 }
-// Éî¶È 
+// æ·±åº¦ 
 int BTHeight(BTN  *tree)
 {
 	int max,RHeight;
@@ -62,7 +62,7 @@ int BTHeight(BTN  *tree)
 }
  
 
-// ÏÈĞò±éÀú  
+// å…ˆåºéå†  
 void ProOrder(BTN *tree)
 {
 	if(!tree)
@@ -74,28 +74,37 @@ void ProOrder(BTN *tree)
 		ProOrder(tree->right);
 	}
 }
-// ·Çµİ¹é ÏÈĞò±éÀú  
+// éé€’å½’ å…ˆåºéå†
+
+// æ ¹ å·¦ å³  
 void ProOrder1(BTN *tree)
 {
-	ST * p=(ST *)malloc(sizeof(ST));
-	BTN *t;
-	p->top=-1;
-	if(tree)
+	BTN * t = tree;
+	ST *p =(ST*)malloc(sizeof(ST)); 
+	p->top= -1;
+	while(t!=NULL||p->top!=-1)
 	{
-		p->data[++p->top] = tree;
-		while(p->top!=-1)
+		while(t)
+		{
+			// æ ¹ 
+			printf("%c ",t->data);
+			p->data[++p->top] = t;
+			// å·¦  
+			t=t->left;	
+		} 
+		if(p->top!=-1)
 		{
 			t = p->data[p->top--];
-			printf("%c ",t->data);
-			if(t->right)
-				p->data[++p->top] =t->right;
-			if(t->left)
-				p->data[++p->top] =t->left;
+			// å³
+			t = t->right;
 		}
-		printf("\n");
 	}
 }
-// ÖĞĞò±éÀú 
+
+
+
+
+// ä¸­åºéå† 
 void InOrder(BTN *tree)
 {
 	if(!tree)
@@ -107,41 +116,34 @@ void InOrder(BTN *tree)
 		InOrder(tree->right);
 	}
 }
-// ·Çµİ¹é  ÖĞĞò±éÀú 
+// éé€’å½’  ä¸­åºéå† 
+// å·¦ æ ¹ å³ 
 void InOrder1(BTN *tree)
 {
-	ST * p=(ST *)malloc(sizeof(ST));
-	BTN *t;
-	p->top=-1;
-	if(tree)
+	BTN * t = tree;
+	ST *p =(ST*)malloc(sizeof(ST)); 
+	p->top= -1;
+	while(t!=NULL||p->top!=-1)
 	{
-		t = tree;
-		// µÚÒ»¸öÊÇÕ»²»Îª¿Õ   
-		//p!=NULLÊÇÒòÎªµÚÒ»¸ö ²»Âú×ãÕ» 
-		//²»Îª¿ÕµÄÌõ¼şËùÓĞÒª¼ÓÕâ¸ö 
-		while(p->top>-1||t!=NULL) 
+		// å·¦æ ‘ 
+		while(t)
 		{
-		
-			// ±éÀú×ó×ÓÊ÷
-			while(t)
-			{
-				p->data[++p->top] = t;
-				t= t->left;	
-			}
-			
-			if(p->top>-1) //²»Îª¿ÕÊ± 
-			{
-				//ÖĞ
-				t = p->data[p->top--];
-				printf("%c ",t->data);
-				// ÓÒ 	
-				t = t->right;
-			} 
-		}
-		printf("\n");
+			p->data[++p->top] =t;
+			t=t->left;
+		} 
+		if(p->top!=-1)
+		{
+			// å‡ºæ ˆ  
+			t = p->data[p->top--];
+			// æ ¹ 
+			printf("%c ",t->data);
+			// å³  
+			t = t->right ;
+		} 
 	}
 }
-//  ºóĞò±éÀú 
+
+//  ååºéå† 
 void PastOrder(BTN *tree)
 {
 	if(!tree)
@@ -153,107 +155,97 @@ void PastOrder(BTN *tree)
 		printf("%c ",tree->data);
 	}
 }
+// å·¦ å³ æ ¹ 
+// å¯ä»¥å…ˆéå† æ ¹ å³ å·¦ åœ¨åè¿‡æ¥ 
 void PastOrder1(BTN *tree)
 {
-	ST * p=(ST *)malloc(sizeof(ST));
-	BTN *t,*last;
-	p->top=-1;
-	int flag ;
-	if(tree)
+	BTN * t = tree;
+	ST *p =(ST*)malloc(sizeof(ST)); 
+	ST *q =(ST*)malloc(sizeof(ST)); 
+	p->top= -1;
+	q->top =-1;
+	while(t!=NULL||p->top!=-1)
 	{
-		t = tree;
-		do 
+		while(t)
 		{
-			// ±éÀú×ó×ÓÊ÷
-			while(t)
-			{
-				p->data[++p->top] = t;
-				t= t->left;	
-			}
-			last=NULL; // ÉÏÒ»¸ö±éÀúµÄ½Úµã 
-			
-			flag =1 ;
-			while(p->top>-1&&flag)
-			{
-				t = p->data[p->top];
-				if(t->right==last)
-				{
-					printf("%c ",t->data);
-					p->top--;
-					last = t;
-				}
-				else
-				{
-					t = t->right;
-					flag = 0; 
-				}
-			}
-		}while(p->top>-1);
-		printf("\n");
+			p->data[++p->top] = t;
+			q->data[++q->top] = t;
+			t = t->right;
+		}
+		if(p->top!=-1)
+		{
+			t=p->data[p->top--];
+			t=t->left;	
+		} 
 	}
+	while(q->top!=-1)
+		printf("%c ",q->data[q->top--]->data);
 }
-// ²ã´Î±éÀú
+
+// å±‚æ¬¡éå† 
 void TravOrder(BTN *tree)
 {
+	BTN *t = tree;
 	QU *p = (QU*)malloc(sizeof(QU));
-	p->front = p->rear = 0;
-	p->data[p->rear++] = tree;
-	while(p->rear!=p->front)
+	p->front=p->rear =0;
+	// å…¥é˜Ÿ 
+	p->data[p->rear++] = t;
+	while(p->front!=p->rear)
 	{
-		BTN*t = p->data[p->front++];
+		t = p->data[p->front++];
 		printf("%c ",t->data);
 		if(t->left)
 			p->data[p->rear++] = t->left;
 		if(t->right)
 			p->data[p->rear++] = t->right;
 	}
-	printf("\n");
 }
+
 //ab d  ce   
 int main()
 {
 	BTN *tree;
 	CreateBTree(&tree);
 	
-	printf("ÏÈĞò±éÀú£º");
+	printf("å…ˆåºéå†ï¼š");
 	ProOrder(tree); 
 	printf("\n");
 	
-	printf("·Çµİ¹éµÄÏÈĞò±éÀú£º");
+	printf("éé€’å½’çš„å…ˆåºéå†ï¼š");
 	ProOrder1(tree); 
 	printf("\n");
 	
-	printf("ÖĞĞò±éÀú£º");
+	printf("ä¸­åºéå†ï¼š");
 	InOrder(tree); 
 	printf("\n");
 	 
-	printf("·Çµİ¹éµÄÖĞĞò±éÀú£º");
+	printf("éé€’å½’çš„ä¸­åºéå†ï¼š");
 	InOrder1(tree); 
 	printf("\n");
 	
 	
-	printf("ºóĞò±éÀú£º");
+	printf("ååºéå†ï¼š");
 	PastOrder(tree); 
 	printf("\n");
 	
 	
-	printf("·Çµİ¹éµÄºóĞò±éÀú£º");
+	printf("éé€’å½’çš„ååºéå†ï¼š");
 	PastOrder1(tree); 
 	printf("\n");
 	
-	printf("²ã´Î±éÀú£º");
+	printf("å±‚æ¬¡éå†ï¼š");
 	TravOrder(tree); 
 	printf("\n");
 
 		
 	char e = 'e';
 	BTN *t = Find(tree,e);
-	printf("²éÕÒ%c:\n");
+	printf("æŸ¥æ‰¾%c:\n");
 	if(t) 
-		printf("ÕÒµ½ÁËÖµÎª%c\n",e,t->data);
+		printf("æ‰¾åˆ°äº†å€¼ä¸º%c\n",e,t->data);
 	else
-		printf("Î´ÕÒµ½ÁËÖµÎª%c\n",e);
+		printf("æœªæ‰¾åˆ°äº†å€¼ä¸º%c\n",e);
 
-	printf("´ËÊ÷µÄÉî¶È£º%d\n",BTHeight(tree));
+	printf("æ­¤æ ‘çš„æ·±åº¦ï¼š%d\n",BTHeight(tree));
 	return 0;
 }
