@@ -58,7 +58,7 @@ void show(LL* linklist)
 Status GetElem(LL* linklist, int index, ElemType* e)
 {
 	LL* f = linklist->next;
-	if (index < 0)
+	if (index <= 0)
 		return ERROR;
 	for (int i = 1; f;f=f->next, i++)
 	{
