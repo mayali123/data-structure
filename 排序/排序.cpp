@@ -9,10 +9,10 @@ void swap(int* a, int* b)
 	*a = *b;
 	*b = t;
 }
-void Bulle_sort(ElemType*p,int n)  // Ã°ÅİÅÅĞò
+void Bulle_sort(ElemType*p,int n)  // å†’æ³¡æ’åº
 {
 	int i, j, flag = 0;
-	for(i=n-1;i>=0;i--)  // Õâ¸ö´ú±íĞèÒªÅÅĞòµÄ ×îºó Ò»¸ö 
+	for(i=n-1;i>=0;i--)  // è¿™ä¸ªä»£è¡¨éœ€è¦æ’åºçš„ æœ€å ä¸€ä¸ª 
 	{ 
 		flag = 0;
 		for (j = 0; j < i; j++)  
@@ -25,7 +25,7 @@ void Bulle_sort(ElemType*p,int n)  // Ã°ÅİÅÅĞò
 			break;
 	}
 }
-void insert_sort(ElemType* p, int n)  //²åÈëÅÅĞò
+void insert_sort(ElemType* p, int n)  //æ’å…¥æ’åº
 {
 	int i, j, t;
 	for (i = 1; i < n; i++)
@@ -37,7 +37,7 @@ void insert_sort(ElemType* p, int n)  //²åÈëÅÅĞò
 	}
 }
 
-void insert_sort2(ElemType* p, int n) //²åÈëÅÅĞò2
+void insert_sort2(ElemType* p, int n) //æ’å…¥æ’åº2
 {
 	int i, j,t;
 	for(i=1;i<n;i++)
@@ -48,8 +48,30 @@ void insert_sort2(ElemType* p, int n) //²åÈëÅÅĞò2
 		p[j + 1] = t;
 	}
 }
-
-void Selection_sort(ElemType* p, int n)  // Ñ¡ÔñÅÅĞò
+void BIN_insert_sort(ElemType* p, int n)  // æ‹©åŠæ’å…¥æ’åº
+{
+	int i,j,tmp;
+	for(i=1;i<n;i++)
+	{
+		tmp = p[i];
+		if(tmp<p[i-1])
+		{
+			int L=0,R=i-1,mid;
+			while(L<=R)
+			{
+				mid = (L+R)/2;
+				if(p[mid]>tmp)
+					R = mid - 1;
+				else
+					L = mid +1;
+			}
+			for(j=i-1;j>=L;j--)
+				p[j+1] = p[j];
+			p[j+1] = tmp; 
+		}
+	}
+} 
+void Selection_sort(ElemType* p, int n)  // é€‰æ‹©æ’åº
 {
 	int i, j,min_index;
 	for (i = 0; i < n; i++)
@@ -61,11 +83,11 @@ void Selection_sort(ElemType* p, int n)  // Ñ¡ÔñÅÅĞò
 		swap(&p[i],&p[min_index]);
 	}
 }
-// Ï£¶ûÅÅĞò
+// å¸Œå°”æ’åº
 void shell_sort(ElemType* p, int n)
 {
 	int D, i, j,tmp;
-	for (D = n / 2; D >= 1; D /= 2)  // ¿ØÖÆ Ï£¶ûÔöÁ¿µÄ 
+	for (D = n / 2; D >= 1; D /= 2)  // æ§åˆ¶ å¸Œå°”å¢é‡çš„ 
 	{ 
 		for (i = D; i < n; i++)
 		{
@@ -76,10 +98,10 @@ void shell_sort(ElemType* p, int n)
 		}
 	}
 }
-void shell_sort2(ElemType* p, int n)// Ï£¶ûÅÅĞò2
+void shell_sort2(ElemType* p, int n)// å¸Œå°”æ’åº2
 {
 	int D, i, j, tmp;
-	for (D = n / 2; D >= 1; D =D/2)  // ¿ØÖÆ Ï£¶ûÔöÁ¿µÄ 
+	for (D = n / 2; D >= 1; D =D/2)  // æ§åˆ¶ å¸Œå°”å¢é‡çš„ 
 	{
 		for (i = D; i < n; i++)
 		{
@@ -90,7 +112,7 @@ void shell_sort2(ElemType* p, int n)// Ï£¶ûÅÅĞò2
 		}
 	}
 }
-//¹é²¢ÅÅĞò ½«Á½¸ö ÒÑÅÅºÃĞò ½áºÏÔÚÒ»Æğ
+//å½’å¹¶æ’åº å°†ä¸¤ä¸ª å·²æ’å¥½åº ç»“åˆåœ¨ä¸€èµ·
 void Merge(ElemType* p, ElemType* tmp, int L, int R, int RightEnd)
 {
 	int LeftEnd = R - 1,i=L,j=R,k=i;
@@ -108,7 +130,7 @@ void Merge(ElemType* p, ElemType* tmp, int L, int R, int RightEnd)
 	for (i = L; i <= RightEnd; i++)
 		p[i] = tmp[i];
 }
-// ·Ö¶øÖÎÖ®  ÊµÏÖpµÄÅÅĞò
+// åˆ†è€Œæ²»ä¹‹  å®ç°pçš„æ’åº
 void Msort(ElemType* p, ElemType* tmp,int L,int RightEnd)
 {
 	int Center = (L + RightEnd) / 2;
@@ -116,11 +138,11 @@ void Msort(ElemType* p, ElemType* tmp,int L,int RightEnd)
 	{
 		Msort(p, tmp, L, Center);
 		Msort(p, tmp, Center + 1, RightEnd);
-		// ºÏ²¢
+		// åˆå¹¶
 		Merge(p,tmp,L,Center+1,RightEnd);
 	}
 }
-// ¹é²¢ÅÅĞòµÄ½Ó¿Ú 
+// å½’å¹¶æ’åºçš„æ¥å£ 
 void Merge_sort(ElemType* p, int n)
 {
 	ElemType* tmp = (ElemType*)malloc(sizeof(ElemType) * n);
@@ -130,9 +152,9 @@ void Merge_sort(ElemType* p, int n)
 		free(tmp);
 	}
 	else
-		printf("ÄÚ´æ²»×ã£¡\n");
+		printf("å†…å­˜ä¸è¶³ï¼\n");
 }
-// ÕÒµ½ 3¸öÖĞ µÄÖĞÎ»Êı
+// æ‰¾åˆ° 3ä¸ªä¸­ çš„ä¸­ä½æ•°
 ElemType mid3(ElemType* p,int Left,int Right)
 {
 	int center = (Left+Right)/2;
@@ -142,11 +164,11 @@ ElemType mid3(ElemType* p,int Left,int Right)
 		swap(&p[Left], &p[Right]);
 	if(p[center] > p[Right])
 		swap(&p[center], &p[Right]);
-	// Ò»¸öĞ¡°ÑÏ·
+	// ä¸€ä¸ªå°æŠŠæˆ
 	swap(&p[center], &p[Right-1]);
 	return p[Right - 1];
 }
-/// ¿ìÅÅ
+/// å¿«æ’
 void qsort(ElemType* p, int Left, int Right)
 {
 	if (Left<Right)
@@ -165,7 +187,7 @@ void qsort(ElemType* p, int Left, int Right)
 				else
 					break;
 			}
-			// Ñ¡ºÃµÄÖ÷Ôª ·Åµ½ÕıÈ·µÄÎ»ÖÃÉÏ
+			// é€‰å¥½çš„ä¸»å…ƒ æ”¾åˆ°æ­£ç¡®çš„ä½ç½®ä¸Š
 			swap(&p[i], &p[Right - 1]);
 		}
 		else
@@ -187,13 +209,13 @@ void qsort(ElemType* p, int Left, int Right)
 	/*else
 		insert_sort(p, Right - Left + 1);*/
 }
-// ·â×°Ò»ÏÂ
+// å°è£…ä¸€ä¸‹
 void quick_sort(ElemType* p, int n)
 {
 	qsort(p,0,n-1);
 }
 
-// ÁíÒ»ÖÖ 
+// å¦ä¸€ç§ 
 void qsort1(ElemType* p, int Left, int Right)
 {
 	if (Left < Right)
@@ -230,33 +252,33 @@ int main()
 	}
 	printf("\n");
 
-	// Ã°ÅİÅÅĞò
+	// å†’æ³¡æ’åº
 	/*Bulle_sort(p,n);
 	for (int i = 0; i < n; i++)
 		printf("%d ", p[i]);
 	printf("\n");*/
 
-	// ²åÈëÅÅĞò 
+	// æ’å…¥æ’åº 
 	/*insert_sort2(p, n);
 	for (int i = 0; i < n; i++)
 		printf("%d ", p[i]);*/
 
-	// Ñ¡ÔñÅÅĞò
+	// é€‰æ‹©æ’åº
 	/*Selection_sort(p, n);
 	for (int i = 0; i < n; i++)
 		printf("%d ", p[i]);*/
 
-	// Ï£¶ûÅÅĞò
+	// å¸Œå°”æ’åº
 	//shell_sort2(p, n);
 	//for (int i = 0; i < n; i++)
 	//	printf("%d ", p[i]);
 
-	// ¹é²¢ÅÅĞò
+	// å½’å¹¶æ’åº
 	/*Merge_sort(p,n);
 	for (int i = 0; i < n; i++)
 		printf("%d ", p[i]);*/
 
-	// ¿ìÅÅ
+	// å¿«æ’
 	quick_sort1(p,n);
 	for (int i = 0; i < n; i++)
 		printf("%d ", p[i]);
