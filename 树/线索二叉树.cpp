@@ -7,32 +7,23 @@
 #define MAXSIZE 20
 #define Status int
 #define ElemType char  
+
 typedef enum 
 {
-	Link,  //  ×óÓÒº¢×Ó
-	Thread // Ç°ºóÇı
+	Link,  //  å·¦å³å­©å­
+	Thread // å‰åé©±
 }PointerTag;
 typedef struct tree {
 	ElemType data; 
 	PointerTag RTag, LTag;
 	struct tree* lchild, * rchild;
 }T;
-typedef struct queue {
-	T* data[MAXSIZE];
-	int front, rear;
-}QU;
-typedef struct stack {
-	T data[MAXSIZE];
-	int top;
-}ST;
+// å…¨å±€å˜é‡ 
 T* pre = NULL;
-
-//ĞèÒªÔÚº¯ÊıÖĞ¸Ä±ä±äÁ¿µÄÖµ£¬´«ËÍ±äÁ¿µÄÖ¸Õë
-// ĞèÒªÔÚº¯ÊıÖĞ¸Ä±äÖ¸ÕëµÄÖµ£¬´«ËÍÖ¸ÕëµÄÖ¸Õë£¬Ä³Ğ©Ö¸Õë¾ÍÊÇ±äÁ¿¡£
 void CreatTree(T**tree)
 {
 	char e;
-	scanf_s("%c",&e,1);
+	scanf("%c",&e);
 	if (' ' == e)
 		 *tree = NULL;
 	else {
@@ -44,182 +35,99 @@ void CreatTree(T**tree)
 		CreatTree(&(*tree)->rchild);
 	}
 }
-//void InThreading(T*tree)  // ÖĞĞòË÷Òı
-//{
-//	if (tree)
-//	{
-//		InThreading(tree->lchild);
-//
-//		// ½áµã 
-//		if (!tree->lchild)
-//		{
-//			tree->LTag = Thread;
-//			tree->lchild = pre;
-//		}
-//		if (!tree->rchild)
-//		{
-//			tree->RTag = Thread;
-//			pre->rchild = tree;
-//		}
-//
-//		InThreading(tree->rchild);
-//	}
-//}
-//void inOrderThreading(T*head,T**tree)
-//{
-//	// ´´½¨Ò»¸öÍ·½Úµã
-//	head = (T*)malloc(sizeof(T));
-//	//³õÊ¼»¯ Í·½Úµã
-//	head->LTag = Link;
-//	head->RTag = Thread;
-//	if (!tree)
-//	{
-//		head->lchild = head;
-//	}
-//	else
-//	{
-//		head->lchild = *tree;
-//		pre = head;
-//		InThreading(*tree);
-//		pre->RTag = Thread;
-//		pre->rchild = head;
-//	}
-//}
-void show(T* tree )
+void InThreading(T* tree) // ä¸­åºç´¢å¼•
 {
-	/*if (!tree)
-		return;*/
-		// ÅäºÏ²ã´Î
-	QU* q = (QU*)malloc(sizeof(QU));
-	q->front = q->rear = -1;
-
-	/*ST* st = (ST*)malloc(sizeof(ST));
-	st->top = -1;*/
-	if (tree)
+	if(tree)
 	{
-		/*
-		// ÏÈĞò±éÀú
-		printf("%c ",tree->data);
-		show(tree->lchild );
-		show(tree->rchild );
-		*/
+		InThreading(tree->lchild);  // å…ˆéå† å·¦æ ‘ 
 		
-		// ÖĞĞò±éÀú
-		/*show(tree->lchild);
-		printf("%c ",tree->data);
-		show(tree->rchild);
-		*/
-		/*
-			// ºóĞò±éÀú
-			show(tree->lchild );
-			show(tree->rchild );
-			printf("%c ",tree->data);
-		*/
-
-		// ²ã´Î±éÀú
-		T* t=tree;
-		q->data[++q->rear] =  t;
-		while (q->front != q->rear)
-		{
-			t = q->data[++q->front];
-			printf("%c ", t->data);
-			if (t->lchild)
-				q->data[++q->rear] = t->lchild;
-			if (t->rchild)
-				q->data[++q->rear] = t->rchild;
-		}
-
-	}
-}
-
-void InThreading(T* tree) // ÖĞĞòË÷Òı
-{
-	if ( tree!=NULL)
-	{
-		// ×ó ÖĞ ÓÒ
-		// ×ó×ÓÊ÷
-		InThreading(tree->lchild);
-		// ÖĞ  
-		
-		// ×ó ±ßÀ´±£´æ Ç°Çı 
-		if (!tree ->lchild)
+		if(tree->lchild==NULL)
 		{
 			tree->LTag = Thread;
 			tree->lchild = pre;
 		}
 		else
 			tree->LTag = Link;
-		// ÓÒ ±ßÀ´±£´æ ºó¼Ì 
-		if (!pre->rchild)
+		if(pre->rchild==NULL)
 		{
 			pre->RTag = Thread;
 			pre->rchild = tree;
 		}
 		else
 			pre->RTag = Link;
-
 		pre = tree;
-
-		// ÓÒ×ÓÊ÷
-		InThreading(tree->rchild);
 		
+		InThreading(tree->rchild);
 	}
-}
-
-void inOrderThreading(T** head,T* tree)
+} 
+void inOrderThreading(T** root,T* tree)
 {
-	*head =(T*) malloc(sizeof(T));
-	(*head)->LTag = Link;
-	(*head)->RTag = Thread;
-	(*head)->rchild = *head;
-	if ( tree == NULL)
-		(*head)->lchild = *head;
+	*root = (T*)malloc(sizeof(T));
+	(*root)->LTag = Link;
+	(*root)->RTag = Thread;
+	(*root)->lchild = *root;
+	if(tree==NULL)
+	{
+		(*root)->rchild = *root;
+	}
 	else
 	{
-		pre = *head;
-		(*head)->lchild =  tree;
+		(*root)->lchild = tree;
+		pre = *root; 
 		
-		InThreading((*head)->lchild);
 
-		// ±éÀúÍêÖ®ºó 
+		InThreading((*root)->lchild) ;
+		
+		pre->rchild = *root;
 		pre->RTag = Thread;
-		pre->rchild = *head;
+		
+		(*root)->rchild = pre;
+	}	
+} 
 
-		(*head)->rchild = pre;
-	}
-}
-
-// ÓÃ·Çµİ¹éµÄ·½Ê½À´ ÖĞĞò±éÀú ¶ş²æÊ÷
-void ThInOrder(T* head)
-{ 
-	// ×ó ÖĞ ÓÒ
-	T* p = head->lchild;
-	while (p != head)
+// é€’å½’ çš„ ä¸­åºéå† 
+void InOrder(T *tree)
+{
+	if(tree)
 	{
-		// ÏÈÈ¥ ×î×ó±ß
-		while (p->LTag==Link) p = p->lchild;
+		if(tree->LTag==Link)
+			InOrder(tree->lchild);
+		printf("%c ",tree->data);
+		if(tree->RTag==Link)
+			InOrder(tree->rchild);
+	} 
+} 
+// éé€’å½’ çš„ ä¸­åºéå† 
+void InOrder1(T *tree)
+{
+	T *p = tree->lchild;
+	while(p!=tree)
+	{
+		// å·¦ 
+		while(p->lchild&&p->LTag==Link )
+			p=p->lchild;
+		// æ ¹ 
 		printf("%c ",p->data);
-		// Í¨¹ı ºó¼Ì À´×ß
-		while (p->RTag == Thread && p->rchild != head)
+		// å³ 
+		while(p->rchild&&p->RTag==Thread&&p->rchild!=tree)
 		{
-			p = p->rchild;
-			printf("%c ",p->data);
+			p=p->rchild; 
+			printf("%c ",p->data); 
 		}
-		//Èç¹û Ã»ÓĞ p->RTag != Thread
-		p = p->rchild;
-	}
-	
-}
+		p=p->rchild; 
+	} 
+} 
 int main()
 {
-	// ´´½¨Ò»¿Ã¶ş²æÊ÷
+	// åˆ›å»ºä¸€æ£µäºŒå‰æ ‘
 	T* tree ,*head,*t;
 	CreatTree(&tree);
-	show(tree);
 	inOrderThreading(&head,tree);
 	printf("\n");
-	
-	ThInOrder(head);
+	printf("é€’å½’çš„ä¸­åºéå†: ");
+	InOrder(head->lchild);
+	printf("\néé€’å½’çš„ä¸­åºéå†: ");
+	InOrder1(head);
 }
 //ab d  ce   
 //b d a e c
