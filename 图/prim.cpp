@@ -5,23 +5,23 @@
 #define INF 65535
 typedef struct  MatGraph {
 	int edges[MAXver][MAXver];
-	int numV, numE;  // ±£´æ ±ß and ¶¥µãÊı
+	int numV, numE;  // ä¿å­˜ è¾¹ and é¡¶ç‚¹æ•°
 }MG;
 void CreatMat(MG * g)
 {
-	printf("ÇëÊäÈë¶¥µãÊıºÍ±ßÊı£º");
+	printf("è¯·è¾“å…¥é¡¶ç‚¹æ•°å’Œè¾¹æ•°ï¼š");
 	scanf("%d%d",&g->numV,&g->numE);
 	
-	//  ³õÊ¼»¯
+	//  åˆå§‹åŒ–
 	for (int i = 0; i < MAXver; i++)
 		for (int j = 0; j < MAXver; j++)
 			g->edges[i][j] = INF;
 
-	// ¶ÁÈë ±ß
+	// è¯»å…¥ è¾¹
 	for(int z=0;z< g->numE;z++)
 	{
 		int i, j,w;
-		printf("ÇëÊäÈë£¨vi,vj£©ÉÏµÄi,j,ºÍÈ¨ÖØw:");
+		printf("è¯·è¾“å…¥ï¼ˆvi,vjï¼‰ä¸Šçš„i,j,å’Œæƒé‡w:");
 		scanf("%d%d%d", &i, &j, &w);
 		g->edges[i][j] = w;
 		g->edges[j][i] = w;
@@ -34,58 +34,76 @@ void disMat(MG* g)
 		for (int j=0; j < g->numV; j++)
 		{
 			if (g->edges[i][j] == INF)
-				printf("¡Ş ");
+				printf("âˆ ");
 			else
 				printf("%d ",g->edges[i][j]);
 		}
 		printf("\n");
 	}
 }
+
+
 void prim(MG* g)
 {
-	int i, j,z;
-	// parent ÓÃÓÚ±£´æÓëÖ®ÏàÁ¬µÄ ½áµã 
-	int* parent = (int*)malloc(sizeof(g->numV));
-	parent[0] = 0; 
-	// Ò»¸ö±£´æ È¨ÖØµÄÊı×é and ÊÕÈë¼¯ºÏµÄ±êÖ¾
-	int* weight = (int*)malloc(sizeof(g->numV));
-
-	// ´ÓÏÂ±íÎª1µÄ¿ªÊ¼
-	for (i = 1; i < g->numV; i++)
-	{ 
-		parent[i] = 0;
-		weight[i] = g->edges[0][i];  // È¨ÖØ
-	}
-	for (i = 1; i < g->numV; i++)
+	int i,j;
+	// ä¿å­˜ä¸Šä¸€ä¸ªç»“ç‚¹ 
+	int *parent = (int *)malloc(sizeof(int)*g->numV);
+	
+	// è·ç¦» or æƒé‡ 
+	int *weight = (int *)malloc(sizeof(int)*g->numV);
+	
+	for(i=0;i<g->numV;i++) 
 	{
-		int min = INF,k;
-		//weight ÕÒÒ»¸ö×îĞ¡Öµ
-		for (j = 1; j < g->numV; j++)
+		weight[i] = g->edges[0][i];
+		parent[i] = 0;		
+	}
+	weight[0] = 0; 
+	// åªéœ€è¦ n-1 è¾¹ 
+	for(i=1;i<g->numV;i++)
+	{
+		int min= INF,min_index; 
+		//æ‰¾å‡ºæœ€å°å€¼ 
+		for(j=0;j<g->numV;j++)
 		{
-			if (weight[j] != 0 && weight[j] < min)
+			// ä¸åœ¨æ ‘é‡Œ 
+			if(weight[j]!=0&&weight[j]<min)
 			{
 				min = weight[j];
-				k = j;
+				min_index = j;
 			}
 		}
-		printf("(%d,%d) \n",parent[k],k);
-		weight[k] = 0; // ±ä³É Ê÷ ÀïµÄ Ã»ÓĞ¾àÀëÁË
-		for (z = 1; z < g->numV; z++)
+		printf("(%d,%d)",parent[min_index],min_index);
+		// è¿›æ¥äº† ä¸€ä¸ªç»“ç‚¹  æ‰€æœ‰è¦æ”¹å˜ ä¸€ä¸‹weight
+		weight[min_index] = 0;
+		for(j=0;j<g->numV;j++)
 		{
-			if (weight != 0 && g->edges[k][z] < weight[z])
+			// ä¸åœ¨æ ‘é‡Œ
+			if(weight[j]!=0&&g->edges[min_index][j] <weight[j])
 			{
-				weight[z] = g->edges[k][z];
-				// ¸Ä±ä¸¸½Úµã
-				parent[z] = k;
+				weight[j] =  g->edges[min_index][j];
+				parent[j] = min_index;
 			}
 		}
 	}
-}
+} 
+
 int main()
 {
 	MG* g = (MG*)malloc(sizeof(MG));
 	CreatMat(g);
-	//disMat(g);
+	disMat(g);
 	prim(g);
 	return 0;
 }
+/*
+7 9
+0 1 28
+0 5 10
+1 6 14
+1 2 16
+5 4 25
+6 4 24
+6 3 18
+2 3 12
+4 3 22
+*/ 
