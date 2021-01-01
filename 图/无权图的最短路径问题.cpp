@@ -1,175 +1,102 @@
-//#include<bits/stdc++.h>
-//#define MaxVertex  200
-//using namespace std;
-//int path[MaxVertex];
-//int dist[MaxVertex];  // ´æ´¢Â·¾¶³¤¶È
-//int G[MaxVertex][MaxVertex]; // Í¼
-//int Ne;  // ¶¥µãÊı 
-//int Nv;  // ±ß 
-//typedef struct queue{
-//	int data[MaxVertex];
-//	int front,rear;
-//}QU;
-//typedef struct stack{
-//	int data[MaxVertex];
-//	int top;
-//}ST;
-//void build()
-//{
-//	int i,j;
-// 	cin>>Nv;
-// 	for(i=1;i<=Nv;i++)
-// 		for(j=1;j<=Nv;j++)
-// 			G[i][j] = 0;
-// 	for(i=1;i<=Nv;i++)
-// 	{
-// 		path[i] = -1;
-//		dist[i] = -1;	
-//	}
-// 	cin>> Ne;
-// 	int v1,v2;  //ÓĞÏòÍ¼ ÎŞÈ¨Í¼ 
-//	for(i=0;i<Ne;i++)
-//	{
-//		cin>>v1>>v2;
-//		G[v1][v2] = 1;  
-//	} 
-//}
-//// v ÊÇÆğµã  
-//void Unweighted(int v)
-//{
-//	int i,j;
-//	QU *p =(QU*)malloc(sizeof(QU));
-//	p->front= p->rear = -1;
-//	p->data[++p->rear] = v;
-//	dist[v] = 0; 
-//	//µ±Æä²»Îª¿ÕÊ± 
-//	while(p->front!=p->rear)
-//	{
-//		i = p->data[++p->front];
-//		for(j=1;j<=Nv;j++)
-//			if(dist[j]==-1&&G[i][j]!=0)
-//			{
-//				dist[j] = dist[i]+1;
-//				path[j] = i;
-//				p->data[++p->rear] = j;
-//			}
-//	}
-//}
-//void getTail(int v)
-//{
-//	int i,j;
-//	ST * p=(ST*) malloc(sizeof(ST));
-//	
-//	for(i=1;i<=Nv;i++)
-//	{
-//		p->top=-1; 
-//		if(i==v)
-//			continue;
-//		j = i; 
-//		while(path[j] !=-1)
-//		{
-//			p->data[++p->top] = j;
-//			j = path[j];
-//		}
-//		p->data[++p->top] = v;
-//		cout<<v<<"µ½"<<i<<"µÄ¾àÀëÎª£º"<<dist[i]<<"\t"<<"ÆäÂ·¾¶Îª£º"; 
-//		while(p->top!=-1)
-//			cout<< p->data[p->top--]<<" ";
-//		cout<<endl;
-//	}
-//}
-//int main()
-//{
-//	build();
-//	Unweighted(3);
-//	getTail(3); 
-//	return 0;
-//}
-#include<iostream>
-#include<stdlib.h>
-#include<cstdlib>
-#include<queue>
-#include<stack>
-#define Init -1
-#define MaxVertex  100
-int path[MaxVertex];  // ´æ´¢Â·¾¶
-int dist[MaxVertex];  // ´æ´¢Â·¾¶³¤¶È
-int G[MaxVertex][MaxVertex]; // Í¼
-int Ne;  // ¶¥µãÊı 
-int Nv;  // ±ß 
-typedef int Vertex;
+#include<bits/stdc++.h>
+#define MaxVertex  200
 using namespace std;
-
-
-void build(){
-	int v1,v2;
-	// ³õÊ¼»¯µã 
-	cin>>Nv;
-	for(int i=1;i<=Nv;i++)
-		for(int j=1;j<=Nv;j++)
-		 	G[i][j] = 0;
-	// ³õÊ¼»¯Â·¾¶
-	for(int i=1;i<=Nv;i++)
-		path[i] = Init;
-	// ³õÊ¼»¯Â·¾¶³¤¶È
-	for(int i=1;i<=Nv;i++)
-		 dist[i] = Init;
-	// ³õÊ¼»¯±ß 
-	cin>>Ne;
-	for(int i=0;i<Ne;i++){
+int path[MaxVertex];
+int dist[MaxVertex];  // å­˜å‚¨è·¯å¾„é•¿åº¦
+int G[MaxVertex][MaxVertex]; // å›¾
+int Ne;  // é¡¶ç‚¹æ•° 
+int Nv;  // è¾¹ 
+typedef struct queue{
+	int data[MaxVertex];
+	int front,rear;
+}QU;
+typedef struct stack{
+	int data[MaxVertex];
+	int top;
+}ST;
+void build()
+{
+	int i,j;
+ 	cin>>Nv;
+ 	for(i=1;i<=Nv;i++)
+ 		for(j=1;j<=Nv;j++)
+ 			G[i][j] = 0;
+ 	for(i=1;i<=Nv;i++)
+ 	{
+ 		path[i] = -1;
+		dist[i] = -1;	
+	}
+ 	cin>> Ne;
+ 	int v1,v2;  //æœ‰å‘å›¾ æ— æƒå›¾ 
+	for(i=0;i<Ne;i++)
+	{
 		cin>>v1>>v2;
-		G[v1][v2] = 1; // ÓĞÏòÍ¼£¡ 
+		G[v1][v2] = 1;  
+	} 
+}
+// v æ˜¯èµ·ç‚¹  
+void Unweighted(int v)
+{
+	int i,j;
+	QU *p =(QU*)malloc(sizeof(QU));
+	p->front= p->rear = -1;
+	p->data[++p->rear] = v;
+	dist[v] = 0; 
+	//å½“å…¶ä¸ä¸ºç©ºæ—¶ 
+	while(p->front!=p->rear)
+	{
+		i = p->data[++p->front];
+		for(j=1;j<=Nv;j++)
+			if(dist[j]==-1&&G[i][j]!=0)
+			{
+				dist[j] = dist[i]+1;
+				path[j] = i;
+				p->data[++p->rear] = j;
+			}
 	}
 }
-
-void Unweighted(Vertex v){
-	queue<Vertex> q;
-	dist[v] = 0;  // ½«×Ô¼ºµÄ¾àÀëÖÃ 0 
-	Vertex w;
-	q.push(v);
-	while(!q.empty()){
-		 w = q.front();
-		 q.pop();
-		 for(int i=1;i<=Nv;i++)
-		 	// Èç¹ûÃ»±»·ÃÎÊ¹ı£¬ÇÒÁ¬Í¨ 
-		 	if(dist[i]==Init && G[w][i]){
-		 		dist[i] = dist[w]+1;  // ÊÇÉÏÒ»²½µÄ¾àÀë + 1 
-		 		path[i] = w;  // w ÊÇÉÏÒ»²½Òª×ßÂ·¾¶µÄÏÂÒ»²½Â·¾¶ 
-		 		q.push(i);
-		 	}
-	}
-}
-
-// »ñÈ¡Â·¾¶ 
-void getTail(Vertex v){
-	for(int i=1;i<=Nv;i++){
+void getTail(int v)
+{
+	int i,j;
+	ST * p=(ST*) malloc(sizeof(ST));
+	
+	for(i=1;i<=Nv;i++)
+	{
+		p->top=-1; 
 		if(i==v)
 			continue;
-		stack<Vertex> s;
-		cout<<v<<"µ½"<<i<<"µÄ×î¶Ì¾àÀëÊÇ£º"<<dist[i];
-		Vertex w = i;
-		// µ±Ã»µ½´ïÆğÊ¼ÆğµãÇ°Ò»Ö±×öÑ­»· 
-		while(path[w]!=Init){
-			s.push(w);  // ÈëÕ» 
-			w = path[w];
+		j = i; 
+		while(path[j] !=-1)
+		{
+			p->data[++p->top] = j;
+			j = path[j];
 		}
-		// ÄæĞòÊä³öÈëÕ»ÔªËØ£¬µÃµ½Â·¾¶ 
-		cout<<"    ÆäÂ·¾¶Îª£º";
-		if(v != i)
-			cout<<v;
-		while(!s.empty()){
-			// Êä³öÕ»¶¥ÔªËØ 
-			cout<<"¡ú"<<s.top();
-			s.pop(); // ³öÕ» 
-		}
+		p->data[++p->top] = v;
+		cout<<v<<"åˆ°"<<i<<"çš„è·ç¦»ä¸ºï¼š"<<dist[i]<<"\t"<<"å…¶è·¯å¾„ä¸ºï¼š"; 
+		while(p->top!=-1)
+			cout<< p->data[p->top--]<<" ";
 		cout<<endl;
 	}
 }
-
-
-int main(){
+int main()
+{
 	build();
 	Unweighted(3);
 	getTail(3); 
 	return 0;
 }
+/*
+7 12
+3 1
+3 6
+1 4
+1 2
+2 5
+2 4
+4 3
+4 5
+4 6
+4 7
+5 7
+7 6
+*/ 
