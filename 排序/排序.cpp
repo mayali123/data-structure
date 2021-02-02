@@ -240,6 +240,23 @@ void quick_sort1(ElemType* p, int n)
 {
 	qsort1(p, 0, n - 1);
 }
+// 真正的快排
+void qsort2(ElemType* p,int L,int R )
+{
+	int mid = (L+R)/2,i=L,j =R;
+	while(i<j)
+	{
+		// 如果 i等于j的话 
+		//下面的循环 就有一个会满足 
+		// 导致出错 
+		while(p[i]<p[mid]) i++;
+		while(p[j]>p[mid]) j--;
+		if(i<j)
+			swap(&p[i],&p[j]);
+	}
+	if(L<mid-1)qsort(p,L,mid-1);
+	if(mid+1<R)qsort(p,mid+1,R);
+} 
 int main()
 {
 	int n;
