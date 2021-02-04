@@ -154,6 +154,43 @@ void Merge_sort(ElemType* p, int n)
 	else
 		printf("内存不足！\n");
 }
+// 堆排序 
+// 对下标为 i和 其子节点 构造成 最大堆  
+void heaping(ElemType *a,int n,int i)
+{
+	if(i>=n)
+		return;
+	int c1=i*2,c2=i*2+1;
+	int max=i;
+	if(c1<n&&a[max]<a[c1]) 
+		max = c1;
+	if(c2<n&&a[max]<a[c2])
+		max = c2;
+	if(max !=i)
+	{
+		swap(&a[i],&a[max]);
+		heaping(a,n,max); 
+	}
+}
+void Bulit_heap(ElemType *a,int n)
+{
+	int last_node = n - 1;
+	int i=(last_node-1)/2; // 最后一个 非叶节点的 结点 
+	for(;i>=0;i--)
+	{
+		heaping(a,n,i); 
+	} 
+}
+void heap_sort(ElemType *a,int n)
+{
+	Bulit_heap(a,n);
+	for(int i=n-1;i>=0;i--)
+	{
+		swap(&a[0],&a[i]);
+		heaping(a,i,0);
+	}
+}
+
 // 找到 3个中 的中位数
 ElemType mid3(ElemType* p,int Left,int Right)
 {
